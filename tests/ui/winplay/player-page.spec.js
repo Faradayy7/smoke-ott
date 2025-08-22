@@ -6,11 +6,10 @@ test.describe("player-page", () => {
   test.beforeEach(async ({ page }) => {
     // Login previo (asume sesión iniciada o usar flujo de login si es necesario)
     await page.goto("https://winplay.co/");
-    // Cerrar cookies si aparece
-    const aceptarCookies = page.getByRole("button", {
-      name: /Aceptar cookies/i,
+    await page.addStyleTag({
+      content:
+        ".cookies-alert, .cookies-container { display: none !important; }",
     });
-    if (await aceptarCookies.isVisible()) await aceptarCookies.click();
     // Click en el primer botón "Ver ahora" visible
     const verAhora = page.getByRole("button", { name: /Ver ahora/i });
     await expect(verAhora.first()).toBeVisible();

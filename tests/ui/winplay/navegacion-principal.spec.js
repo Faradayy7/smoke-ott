@@ -3,15 +3,10 @@ import { test, expect } from "@playwright/test";
 test.describe("navegacion-principal", () => {
   test("happy path", async ({ page }) => {
     await page.goto(process.env.BASE_URL || "https://winplay.co/");
-
-    // PASOS:
-    // Aceptar cookies si el banner está presente
-    const aceptarCookies = page.getByRole("button", {
-      name: "Aceptar cookies",
+    await page.addStyleTag({
+      content:
+        ".cookies-alert, .cookies-container { display: none !important; }",
     });
-    if (await aceptarCookies.isVisible()) {
-      await aceptarCookies.click();
-    }
     // Navegar por los botones principales
     await page.getByRole("button", { name: "Inicio" }).click();
     await expect(page).toHaveURL(/\/?$/);

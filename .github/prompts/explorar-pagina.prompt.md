@@ -9,7 +9,7 @@ model: 'Claude Sonnet 4'
 Objetivo: explorar el sitio y generar pruebas automatizadas listas para ejecutar como archivos `*.spec.ts`.
 
 ## Parámetros (editar si aplica)
-- baseURL: <https://winplay.co/>
+- baseURL: </>
 - outDir: tests/ui
 - useTypeScript: true
 - flowsObjetivo: 3-5 (login, búsqueda, checkout, etc.)

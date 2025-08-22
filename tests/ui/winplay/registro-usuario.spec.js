@@ -4,10 +4,10 @@ import { test, expect } from "@playwright/test";
 test.describe("registro-usuario", () => {
   test("acceso al formulario", async ({ page }) => {
     await page.goto("https://winplay.co/login");
-    const aceptarCookies = page.locator("button.action-button", {
-      hasText: "Aceptar cookies",
+    await page.addStyleTag({
+      content:
+        ".cookies-alert, .cookies-container { display: none !important; }",
     });
-    if (await aceptarCookies.isVisible()) await aceptarCookies.click();
     await page.locator('a[href="/signup"]').click();
     await expect(page).toHaveURL(/\/signup$/);
     // SELECTOR: a[href="/signup"]

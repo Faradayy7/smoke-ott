@@ -6,17 +6,27 @@ const { test, expect } = require("@playwright/test");
 test.describe("TVN Pass - Interacción con elementos clave", () => {
   test.beforeEach(async ({ page }) => {
     await page.goto("https://tvnpass.com/");
-    // Cierra el banner de cookies si aparece
-    const aceptarCookies = page.locator("button.action-button", {
-      hasText: "Aceptar cookies",
-    });
-    if (await aceptarCookies.isVisible()) {
-      await aceptarCookies.click();
-    }
-    // Alternativamente, intenta rechazar si el botón de aceptar no está
-    const rechazarCookies = page.locator('button:has-text("Rechazar cookies")');
-    if (await rechazarCookies.isVisible({ timeout: 2000 }).catch(() => false)) {
-      await rechazarCookies.click();
+    // Espera a que el banner de cookies sea visible y ciérralo si aparece
+    const cookiesDiv = page.locator("div.cookies-container");
+    if (await cookiesDiv.isVisible({ timeout: 4000 }).catch(() => false)) {
+      const aceptarCookies = cookiesDiv.locator("button.action-button", {
+        hasText: "Aceptar cookies",
+      });
+      if (
+        await aceptarCookies.isVisible({ timeout: 2000 }).catch(() => false)
+      ) {
+        await aceptarCookies.click();
+      } else {
+        // Alternativamente, intenta rechazar si el botón de aceptar no está
+        const rechazarCookies = cookiesDiv.locator("button.action-button", {
+          hasText: "Rechazar cookies",
+        });
+        if (
+          await rechazarCookies.isVisible({ timeout: 2000 }).catch(() => false)
+        ) {
+          await rechazarCookies.click();
+        }
+      }
     }
   });
 

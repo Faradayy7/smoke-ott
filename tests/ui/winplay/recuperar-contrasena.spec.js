@@ -3,15 +3,10 @@ import { test, expect } from "@playwright/test";
 test.describe("recuperar-contrasena", () => {
   test("flujo de recuperación", async ({ page }) => {
     await page.goto("https://winplay.co/login");
-    // Cerrar banner de cookies si está visible (selector robusto)
-    const btnAceptarCookies = page.getByRole("button", {
-      name: "Aceptar cookies",
+    await page.addStyleTag({
+      content:
+        ".cookies-alert, .cookies-container { display: none !important; }",
     });
-    if (await btnAceptarCookies.isVisible()) {
-      await btnAceptarCookies.click();
-      // Esperar a que el banner desaparezca
-      await expect(btnAceptarCookies).toBeHidden();
-    }
     await page.locator('a[href="/retrieve-password"]').click();
     await expect(page).toHaveURL(/\/retrieve-password$/);
     // Validar presencia de formulario de recuperación
